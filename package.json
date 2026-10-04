@@ -1,0 +1,39 @@
+{
+  "name": "aero-platform",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "build:installer": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-win-installer.ps1",
+    "package:installer": "electron-builder --win nsis --x64 --config electron-builder.yml",
+    "export:app": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/export-app.ps1",
+    "start": "node .next/standalone/server.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "lucide-react": "^0.468.0",
+    "mammoth": "^1.13.0",
+    "next": "^16.3.8",
+    "pdfjs-dist": "^6.4.299",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.7",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "^16.3.8",
+    "typescript": "^5.8.3",
+    "vitest": "^5.0.3"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+.next/
+.npm-cache/
+*.tsbuildinfo
+.env*
+data/
+dist/
+
+!infra/containers/.env.example

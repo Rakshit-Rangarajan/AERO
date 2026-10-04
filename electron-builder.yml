@@ -1,0 +1,33 @@
+appId: com.aero.engineering-operations
+productName: AERO
+directories:
+  app: dist/win-app
+  output: dist/installer
+files:
+  - package.json
+  - electron/main.cjs
+extraResources:
+  - from: .next/standalone
+    to: aero-server
+    filter:
+      - "**/*"
+  - from: dist/runtime/node-v22.23.3-win-x64/node.exe
+    to: runtime/node.exe
+  - from: dist/runtime/node-v22.23.3-win-x64/LICENSE
+    to: runtime/LICENSE
+win:
+  target: nsis
+  icon: null
+nsis:
+  include: electron/installer.nsh
+  oneClick: false
+  perMachine: false
+  allowElevation: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: AERO
+  runAfterFinish: true
+  deleteAppDataOnUninstall: false
+artifactName: AERO-Setup-${version}-${arch}.${ext}
+asar: true
