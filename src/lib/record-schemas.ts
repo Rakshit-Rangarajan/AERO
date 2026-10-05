@@ -11,6 +11,8 @@ export const RECORD_KINDS = [
   "observability-metric",
   "vector-index",
   "roi-metric",
+  "okr",
+  "feature-flag",
 ] as const;
 
 export type RecordKind = (typeof RECORD_KINDS)[number];
@@ -241,6 +243,35 @@ export const RECORD_SCHEMAS: Record<RecordKind, RecordSchema> = {
       { name: "status", label: "Index status", type: "select", column: "status", options: status(["synced", "indexing", "failed"]) },
       { name: "chunks", label: "Chunks", type: "number", metric: { key: "chunks" } },
       { name: "collection", label: "Collection", type: "text", metric: { key: "collection" }, placeholder: "engineering" },
+    ],
+  },
+  "okr": {
+    kind: "okr",
+    label: "OKR",
+    plural: "OKRs",
+    statuses: [],
+    fields: [
+      { name: "title", label: "Objective", type: "text", column: "title", required: true, placeholder: "Accelerate Enterprise Onboarding" },
+      { name: "progress", label: "Overall Progress (%)", type: "number", metric: { key: "progress" } },
+      { name: "kr1", label: "Key Result 1", type: "text", metric: { key: "kr1" }, placeholder: "Reduce setup time from 4h to 10m" },
+      { name: "kr1_prog", label: "KR 1 Progress (%)", type: "number", metric: { key: "kr1_prog" } },
+      { name: "kr2", label: "Key Result 2", type: "text", metric: { key: "kr2" } },
+      { name: "kr2_prog", label: "KR 2 Progress (%)", type: "number", metric: { key: "kr2_prog" } },
+      { name: "kr3", label: "Key Result 3", type: "text", metric: { key: "kr3" } },
+      { name: "kr3_prog", label: "KR 3 Progress (%)", type: "number", metric: { key: "kr3_prog" } },
+    ],
+  },
+  "feature-flag": {
+    kind: "feature-flag",
+    label: "Feature Flag",
+    plural: "Feature Flags",
+    statuses: [],
+    fields: [
+      { name: "title", label: "Flag Name", type: "text", column: "title", required: true, placeholder: "enable-new-auth" },
+      { name: "desc", label: "Description", type: "textarea", column: "subtitle", placeholder: "Turns on the new auth flow" },
+      { name: "env", label: "Environment", type: "text", metric: { key: "env" }, placeholder: "Production" },
+      { name: "rollout", label: "Rollout (%)", type: "text", metric: { key: "rollout" }, placeholder: "25%" },
+      { name: "target", label: "Target Audience", type: "text", metric: { key: "target" }, placeholder: "Beta Users" },
     ],
   },
   "roi-metric": {

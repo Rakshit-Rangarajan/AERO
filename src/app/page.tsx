@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Activity, ArrowUpRight, Bot, BookOpen, Check, ChevronDown, CircleHelp, FileText, GitBranch, LayoutDashboard, Menu, MessageSquare, Plus, Search, Send, Settings2, ShieldCheck, Sparkles, SquareTerminal, X , Trash2, UserRound } from "lucide-react";
 import { Target, ToggleRight, ShieldAlert } from "lucide-react";
 import { DemoWorkbench } from "@/components/demo-workbench";
+import { useDemoMode } from "@/lib/demo-mode";
 import { AnalyticsDashboard } from "@/components/analytics-dashboard";
 import { CompanySettings } from "@/components/company-settings";
 import { CompanySwitcher } from "@/components/company-switcher";
@@ -67,6 +68,7 @@ export default function Home() {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const [agents, setAgents] = useState<AgentChoice[]>([]);
   const [agentSearch, setAgentSearch] = useState("");
+  const { isDemo, toggleDemo } = useDemoMode();
   const [nav, setNavRaw] = useState(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash.slice(1);
