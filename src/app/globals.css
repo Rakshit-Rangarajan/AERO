@@ -1025,8 +1025,8 @@ THEME OVERRIDES FOR FULL APP COVERAGE
 .plan-tl-label span{display:block;margin-top:3px;color:#6f7b84;font:9.5px var(--font-mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .plan-tl-track{position:relative;height:100%;min-height:45px}
 .plan-tl-gridline{position:absolute;top:0;bottom:0;width:1px;background:#1b222a}
-.plan-tl-today{position:absolute;top:0;bottom:0;width:1px;background:rgba(177,244,216,.35);z-index:1}
-.plan-tl-today i{position:absolute;top:6px;left:-2px;width:5px;height:5px;border-radius:50%;background:#b1f4d8}
+.plan-tl-today{position:absolute;top:0;bottom:0;width:5px;margin-left:-2px;background:linear-gradient(90deg,transparent 0 2px,rgba(177,244,216,.35) 2px 3px,transparent 3px);z-index:1}
+.plan-tl-today i{position:absolute;top:6px;left:0;width:5px;height:5px;border-radius:50%;background:#b1f4d8}
 .plan-tl-bar{position:absolute;top:50%;transform:translateY(-50%);height:20px;display:flex;align-items:center;border-radius:6px;background:#1b2228;overflow:hidden;z-index:2;cursor:pointer}
 .plan-tl-fill{position:absolute;left:0;top:0;bottom:0;opacity:.55}
 .plan-tl-bar[data-status="planned"] .plan-tl-fill{background:#4c6a8a}
@@ -1089,7 +1089,8 @@ THEME OVERRIDES FOR FULL APP COVERAGE
 .plan-phase[data-state="done"] .plan-phase-main strong{color:#77828a;text-decoration:line-through}
 .plan-phase-main small{display:block;margin-top:2px;color:#6c777f;font:9.5px var(--font-mono)}
 .plan-phase em{flex:none;padding:2px 6px;border-radius:7px;background:#17271f;color:#8fd7b2;font:9px var(--font-mono);font-style:normal;letter-spacing:.05em}
-.plan-phase-form{display:grid;grid-template-columns:minmax(0,1fr) 82px 82px 26px;gap:5px;margin-top:9px;padding-top:10px;border-top:1px dashed #232b31}
+.plan-phase-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 26px;gap:5px;margin-top:9px;padding-top:10px;border-top:1px dashed #232b31}
+.plan-phase-form>input:first-child{grid-column:1/-1}
 .plan-phase-form input{height:27px;min-width:0;padding:0 6px;border:1px solid #262e35;border-radius:8px;background:#141a1f;color:#d7dedb;font-size:11px;font-family:inherit;color-scheme:dark}
 .plan-phase-form input::placeholder{color:#616b72}
 .plan-phase-form .icon-button{width:26px;height:26px}
@@ -1223,3 +1224,18 @@ THEME OVERRIDES FOR FULL APP COVERAGE
 .ki-result-head strong{color:var(--text);font-size:12.5px}
 .ki-result p{margin:7px 0 0;color:var(--muted);font-size:11.5px;line-height:1.6}
 .ki-index-status{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 153, 148, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 153, 148, 0.4);
+}

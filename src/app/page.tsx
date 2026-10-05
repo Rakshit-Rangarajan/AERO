@@ -2,12 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Activity, ArrowUpRight, Bot, BookOpen, Check, ChevronDown, CircleHelp, FileText, GitBranch, LayoutDashboard, Menu, MessageSquare, Plus, Search, Send, Settings2, ShieldCheck, Sparkles, SquareTerminal, X , Trash2, UserRound } from "lucide-react";
+import { Target, ToggleRight, ShieldAlert } from "lucide-react";
 import { DemoWorkbench } from "@/components/demo-workbench";
 import { AnalyticsDashboard } from "@/components/analytics-dashboard";
 import { CompanySettings } from "@/components/company-settings";
 import { CompanySwitcher } from "@/components/company-switcher";
 import { ProviderSetup } from "@/components/provider-setup";
 import { AppIntegrations } from "@/components/app-integrations";
+import { AzureDevOpsDashboard } from "@/components/azure-devops-dashboard";
+import { ConfluenceDashboard } from "@/components/confluence-dashboard";
+import { OkrDashboard } from "@/components/okr-dashboard";
+import { FeatureFlagsDashboard } from "@/components/feature-flags-dashboard";
+import { IncidentsDashboard } from "@/components/incidents-dashboard";
+
+
 import { RepositoriesDashboard } from "@/components/repositories-dashboard";
 import { PullRequestsDashboard } from "@/components/pull-requests-dashboard";
 import { TestingDashboard } from "@/components/testing-dashboard";
@@ -34,7 +42,7 @@ type AgentChoice = { id: string; name: string; role: string; persona: string; si
 type KnowledgeResult = { id: string; title: string; kind: string; source: string; createdAt: string; excerpt: string };
 type ActivityEvent = { id: string; session_id: string | null; action: string; detail: string; created_at: string };
 const sections = [
-  { title: "WORKSPACE", items: [{ label: "Command center", icon: LayoutDashboard }, { label: "Sessions", icon: MessageSquare, count: "04" }, { label: "Work items", icon: SquareTerminal }, { label: "Agents", icon: Bot }, { label: "Analysis", icon: Activity }, { label: "Round table", icon: Bot }, { label: "Plans", icon: Check }] },
+  { title: "WORKSPACE", items: [{ label: "Command center", icon: LayoutDashboard }, { label: "Sessions", icon: MessageSquare, count: "04" }, { label: "Work items", icon: SquareTerminal }, { label: "Agents", icon: Bot }, { label: "Analysis", icon: Activity }, { label: "Round table", icon: Bot }, { label: "Plans", icon: Check }, { label: "OKRs", icon: Target }] },
   { title: "ENGINEERING", items: [{ label: "Knowledge", icon: BookOpen }, { label: "Knowledge intelligence", icon: BookOpen }, { label: "Repositories", icon: GitBranch }, { label: "Development", icon: Activity }, { label: "Reviews", icon: ShieldCheck }, { label: "Testing", icon: Check }, { label: "Failure analysis", icon: Activity }] },
   { title: "INTEGRATIONS", items: [{ label: "Integrations", icon: GitBranch }, { label: "Confluence", icon: BookOpen }, { label: "Azure DevOps", icon: GitBranch }] },
   { title: "RELEASE", items: [{ label: "Pull requests", icon: GitBranch }, { label: "Releases", icon: SquareTerminal }, { label: "Environments", icon: Check }, { label: "Observability", icon: Activity }, { label: "Security", icon: ShieldCheck }] },
@@ -43,6 +51,15 @@ const sections = [
 
 export default function Home() {
   const [state, setState] = useState<State | null>(null);
+  const [workspaceMenuOpen, setWorkspaceMenuOpen] = useState(false);
+  const [workspaces, setWorkspaces] = useState([
+    { id: 'local', name: 'Local workspace', desc: 'Single-user foundation', avatar: 'L' },
+    { id: 'enterprise', name: 'Enterprise Cloud', desc: 'Managed secure environment', avatar: 'E' }
+  ]);
+  const [activeWorkspace, setActiveWorkspace] = useState('local');
+  const [creatingWorkspace, setCreatingWorkspace] = useState(false);
+  const [newWorkspaceName, setNewWorkspaceName] = useState("");
+
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
@@ -607,9 +624,56 @@ export default function Home() {
   return <main className="app-shell">
     <aside className="sidebar">
       <div className="brand-row"><img src="/logo.png" alt="AERO" className="brand-mark" style={{width: "32px", height: "32px", borderRadius: "8px", objectFit: "contain"}}/><div className="brand-name">AERO<span>ENGINEERING OPERATIONS</span></div><button className="icon-button mobile-menu" aria-label="Menu"><Menu size={17}/></button><button className="icon-button collapse" aria-label="Collapse sidebar"><Menu size={16}/></button></div>
-      <button className="workspace-switch"><span className="workspace-avatar">L</span><span className="workspace-copy"><strong>Local workspace</strong><small>Single-user foundation</small></span><ChevronDown size={14}/></button>
+      <div style={{ position: 'relative' }}>
+        <button className="workspace-switch" onClick={() => { setWorkspaceMenuOpen(!workspaceMenuOpen); setCreatingWorkspace(false); }}>
+          <span className="workspace-avatar">{workspaces.find(w => w.id === activeWorkspace)?.avatar || 'W'}</span>
+          <span className="workspace-copy">
+            <strong>{workspaces.find(w => w.id === activeWorkspace)?.name}</strong>
+            <small>{workspaces.find(w => w.id === activeWorkspace)?.desc}</small>
+          </span>
+          <ChevronDown size={14}/>
+        </button>
+        {workspaceMenuOpen && (
+          <div style={{ position: 'absolute', top: '100%', left: '12px', right: '12px', marginTop: '8px', background: 'var(--panel)', border: '1px solid var(--line)', borderRadius: '12px', padding: '8px', zIndex: 100, boxShadow: '0 10px 30px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {creatingWorkspace ? (
+              <div style={{ padding: '8px' }}>
+                <input autoFocus placeholder="Workspace name" value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)} style={{ width: '100%', padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--line)', borderRadius: '8px', color: 'var(--text)', outline: 'none', fontSize: '13px', marginBottom: '8px' }} />
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button className="primary-button" style={{ flex: 1, padding: '6px', fontSize: '12px' }} onClick={() => {
+                    if (newWorkspaceName.trim()) {
+                      const id = 'ws-' + Date.now();
+                      setWorkspaces([...workspaces, { id, name: newWorkspaceName.trim(), desc: 'Custom workspace', avatar: newWorkspaceName.trim().charAt(0).toUpperCase() }]);
+                      setActiveWorkspace(id);
+                      setCreatingWorkspace(false);
+                      setNewWorkspaceName("");
+                      setWorkspaceMenuOpen(false);
+                    }
+                  }}>Create</button>
+                  <button className="primary-button" style={{ flex: 1, padding: '6px', fontSize: '12px', background: 'var(--line)', color: 'var(--text)' }} onClick={() => setCreatingWorkspace(false)}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <>
+                {workspaces.map(w => (
+                  <button key={w.id} onClick={() => { setActiveWorkspace(w.id); setWorkspaceMenuOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px', background: activeWorkspace === w.id ? 'rgba(255,255,255,0.05)' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', textAlign: 'left', color: 'var(--text)' }}>
+                    <span className="workspace-avatar" style={{ width: '24px', height: '24px', fontSize: '12px', background: activeWorkspace === w.id ? 'var(--mint)' : 'rgba(255,255,255,0.1)', color: activeWorkspace === w.id ? 'var(--bg)' : 'var(--text)' }}>{w.avatar}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <strong style={{ fontSize: '13px', fontWeight: 600 }}>{w.name}</strong>
+                      <small style={{ fontSize: '11px', color: 'var(--muted)' }}>{w.desc}</small>
+                    </div>
+                  </button>
+                ))}
+                <div style={{ height: '1px', background: 'var(--line)', margin: '4px 0' }} />
+                <button onClick={() => setCreatingWorkspace(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px', background: 'transparent', border: 'none', color: 'var(--mint)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>
+                  <Plus size={14}/> Create new workspace
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
       <div className="nav-scroll">{sections.map(section => <div className="nav-section" key={section.title}><div className="nav-title">{section.title}</div>{section.items.map(item => <button key={item.label} onClick={() => setNav(item.label)} className={`nav-item ${nav === item.label ? "selected" : ""}`}><item.icon size={16}/><span>{item.label}</span>{"count" in item && <small>{state.sessions.length.toString().padStart(2,"0")}</small>}</button>)}</div>)}
-        <div className="nav-section"><div className="nav-title">OPERATIONS</div>{["Pull requests", "Environments", "Activity"].map((name, index) => { const Icon = [GitBranch, SquareTerminal, Activity][index]; return <button key={name} onClick={() => name === "Activity" ? void openActivity() : setNav(name)} className={`nav-item ${nav === name ? "selected" : ""}`}><Icon size={16}/><span>{name}</span></button>; })}</div>
+        <div className="nav-section"><div className="nav-title">OPERATIONS</div>{["Pull requests", "Environments", "Activity", "Feature flags", "Incidents"].map((name, index) => { const Icon = [GitBranch, SquareTerminal, Activity, ToggleRight, ShieldAlert][index]; return <button key={name} onClick={() => name === "Activity" ? void openActivity() : setNav(name)} className={`nav-item ${nav === name ? "selected" : ""}`}><Icon size={16}/><span>{name}</span></button>; })}</div>
         <div className="nav-section session-list"><div className="nav-title">RECENT SESSIONS <button aria-label="New session" onClick={() => void createSession()}><Plus size={14}/></button></div>{state.sessions.slice(0, 6).map(session => <button key={session.id} className={`nav-item session-link ${state.session.id === session.id ? "selected" : ""}`} onClick={() => void openSession(session)}><span className="session-dot"/><span>{session.title}</span></button>)}</div>
       </div>
       <div className="sidebar-bottom"><button className="nav-item" onClick={() => setNav("Settings")}><Settings2 size={16}/><span>Knowledge workspace</span></button><button className="user-profile"><span className="user-avatar">LD</span><span className="workspace-copy"><strong>Local developer</strong><small>No account configured</small></span><ChevronDown size={14}/></button></div>
@@ -647,7 +711,7 @@ nav === "Releases" ? <section className="panel"><ReleasesDashboard /></section> 
 nav === "Environments" ? <section className="panel"><EnvironmentsDashboard /></section> :
 nav === "Observability" ? <section className="panel"><ObservabilityDashboard /></section> :
 nav === "Security" ? <section className="panel"><SecurityDashboard /></section> :
-nav === "Development" ? <section className="panel"><DevelopmentDashboard /></section> : nav === "Reviews" ? <section className="panel"><ReviewsDashboard /></section> : nav === "Testing" ? <section className="panel"><TestingDashboard /></section> : nav === "Pull requests" ? <section className="panel"><PullRequestsDashboard /></section> : nav === "Repositories" ? <section className="panel"><RepositoriesDashboard /></section> : nav === "Analysis" ? <section className="panel"><AnalyticsDashboard /></section> : nav === "Profile" ? <section className="panel"><ProfilePanel /></section> : nav === "Plans" ? <section className="panel"><PlansDashboard /></section> : (nav === "Integrations" || nav === "Azure DevOps" || nav === "Confluence") ? <section className="panel" style={{padding: "24px"}}><AppIntegrations /></section> : nav !== "Command center" ? <section className="panel not-configured-hero">
+nav === "Development" ? <section className="panel"><DevelopmentDashboard /></section> : nav === "Reviews" ? <section className="panel"><ReviewsDashboard /></section> : nav === "Testing" ? <section className="panel"><TestingDashboard /></section> : nav === "Pull requests" ? <section className="panel"><PullRequestsDashboard /></section> : nav === "Repositories" ? <section className="panel"><RepositoriesDashboard /></section> : nav === "Analysis" ? <section className="panel"><AnalyticsDashboard /></section> : nav === "Profile" ? <section className="panel"><ProfilePanel /></section> : nav === "Plans" ? <section className="panel"><PlansDashboard /></section> : nav === "OKRs" ? <section className="panel"><OkrDashboard /></section> : nav === "Feature flags" ? <section className="panel"><FeatureFlagsDashboard /></section> : nav === "Incidents" ? <section className="panel"><IncidentsDashboard /></section> : nav === "Integrations" ? <section className="panel" style={{padding: "24px"}}><AppIntegrations /></section> : nav === "Azure DevOps" ? <section className="panel"><AzureDevOpsDashboard /></section> : nav === "Confluence" ? <section className="panel"><ConfluenceDashboard /></section> : nav !== "Command center" ? <section className="panel not-configured-hero">
   <div className="not-configured-icon"><Activity size={24}/></div>
   <h2>{nav}</h2>
   <p>This workspace module requires additional configuration. Connect an external integration or setup your provider to enable this capability.</p>
