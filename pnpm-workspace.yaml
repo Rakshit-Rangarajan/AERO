@@ -1,4 +1,5 @@
 allowBuilds:
-  unrs-resolver: set this to true or false
+  electron-winstaller: true
+  unrs-resolver: true
 minimumReleaseAgeExclude:
   - pdfjs-dist@6.4.299
