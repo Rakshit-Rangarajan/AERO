@@ -22,26 +22,26 @@ export function DemoWorkbench({ nav }: { nav: string }) {
   const guidedSteps = presenterSteps();
 
   useEffect(() => {
-    let active = true;
-    fetch("/api/demo").then(async response => {
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error ?? "Could not load demo state.");
-      if (active) setData(result);
-    }).catch(reason => { if (active) setError(reason instanceof Error ? reason.message : "Could not load demo state."); });
-    return () => { active = false; };
+    // All showcase actions run in this browser only: no persistent server or credentials required.
+    setData({mode:"DEMO MODE · BROWSER ONLY",workflows:demoWorkflows,runs:[]});
   }, []);
 
   async function runAction(workflowId: string, actionId: string) {
     const key = `${workflowId}:${actionId}`;
     setBusy(key); setError(""); setNotice("");
     try {
-      const response = await fetch("/api/demo", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ workflowId, actionId, targetBranch }) });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error ?? "Demo action failed.");
-      setData(current => current ? { ...current, runs: result.runs } : current);
-      setNotice("Simulation saved to the local demo log.");
-    } catch (reason) { setError(reason instanceof Error ? reason.message : "Demo action failed."); }
-    finally { setBusy(null); }
+      const item = demoWorkflows.find(w => w.id === workflowId);
+      const action = item?.actions.find(a => a.id === actionId);
+      if (!action) throw new Error("Unknown demo action.");
+      const existing = data?.runs ?? [];
+      if (action.requires && !existing.some(run => run.workflowId === action.requires?.workflowId && run.actionId === action.requires?.actionId)) {
+        throw new Error("Complete the prerequisite demo step first.");
+      }
+      const run: Run = {id:crypto.randomUUID(),workflowId,actionId,createdAt:new Date().toISOString(),result:JSON.stringify({output:action.output,targetBranch})};
+      setData(current => current ? {...current,runs:[run,...current.runs]} : {mode:"DEMO MODE",workflows:demoWorkflows,runs:[run]});
+      setNotice("Simulated step completed in this browser. Nothing was executed remotely.");
+    } catch (reason) { setError(reason instanceof Error?reason.message:"Demo action failed."); }
+    finally {setBusy(null);}
   }
 
   function exportEvidence() {
