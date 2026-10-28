@@ -1,10 +1,9 @@
 "use client";
 
-import { useDemoMode } from "@/lib/demo-mode";
 import { BookOpen, FileText, CheckCircle2 } from "lucide-react";
 
 export function ConfluenceDashboard() {
-  const { isDemo } = useDemoMode();
+  const isDemo = false;
 
   return (
     <div className="knowledge-page">
