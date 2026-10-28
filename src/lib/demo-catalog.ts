@@ -125,6 +125,70 @@ export const demoWorkflows: DemoWorkflow[] = [
     { id: "matrix", label: "Show sample permission matrix", output: "MOCK MODE · Architect: read context/write plans. Developer: write code only after approval. Reviewer: read diff/write findings. QA: execute tests only. Release: record release evidence; deployment remains manual." },
     { id: "gates", label: "Preview high-risk gates", output: "MOCK MODE · Approval checkpoints shown for plan approval, destructive repository operations, production testing, merge, and deployment. No policy enforcement is added by this preview." },
   ] },
+  { id: "command-center", nav: "Command center", title: "Operational command center", eyebrow: "COMPLETE FEATURE TOUR", description: "Dashboard snapshots, release signals, active work and task health. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Operational command center", output: "MOCK MODE · Dashboard snapshots, release signals, active work and task health. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "command-center", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Operational command center. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "sessions", nav: "Sessions", title: "Persistent session lifecycle", eyebrow: "COMPLETE FEATURE TOUR", description: "Create, reopen and inspect synthetic session history. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Persistent session lifecycle", output: "MOCK MODE · Create, reopen and inspect synthetic session history. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "sessions", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Persistent session lifecycle. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "agent-chats", nav: "Agents", title: "Individual agent chats", eyebrow: "COMPLETE FEATURE TOUR", description: "Select persona, view context, and preview a bounded agent reply. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Individual agent chats", output: "MOCK MODE · Select persona, view context, and preview a bounded agent reply. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "agent-chats", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Individual agent chats. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "group-chats", nav: "Group chats", title: "Group chat and contextual handoffs", eyebrow: "COMPLETE FEATURE TOUR", description: "Show multi-agent transcript, referral and one-response-per-turn guard. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Group chat and contextual handoffs", output: "MOCK MODE · Show multi-agent transcript, referral and one-response-per-turn guard. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "group-chats", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Group chat and contextual handoffs. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "companies", nav: "Companies", title: "Multi-company configuration", eyebrow: "COMPLETE FEATURE TOUR", description: "Switch example company and inspect repository links without credentials. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Multi-company configuration", output: "MOCK MODE · Switch example company and inspect repository links without credentials. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "companies", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Multi-company configuration. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "okr", nav: "OKRs", title: "Objectives and key results", eyebrow: "COMPLETE FEATURE TOUR", description: "Track an illustrative engineering objective and measurable key results. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Objectives and key results", output: "MOCK MODE · Track an illustrative engineering objective and measurable key results. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "okr", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Objectives and key results. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "feature-flags", nav: "Feature flags", title: "Feature-flag management", eyebrow: "COMPLETE FEATURE TOUR", description: "Preview targeting, staged rollout and rollback policies. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Feature-flag management", output: "MOCK MODE · Preview targeting, staged rollout and rollback policies. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "feature-flags", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Feature-flag management. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "incidents", nav: "Incidents", title: "Incident management", eyebrow: "COMPLETE FEATURE TOUR", description: "Intake severity, timeline, mitigation, RCA and postmortem. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Incident management", output: "MOCK MODE · Intake severity, timeline, mitigation, RCA and postmortem. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "incidents", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Incident management. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "analytics", nav: "Analytics", title: "Engineering analytics and KPIs", eyebrow: "COMPLETE FEATURE TOUR", description: "Show illustrative cycle-time, QA and productivity metrics. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Engineering analytics and KPIs", output: "MOCK MODE · Show illustrative cycle-time, QA and productivity metrics. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "analytics", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Engineering analytics and KPIs. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "development-cycle", nav: "Development cycle", title: "Automated development and human gates", eyebrow: "COMPLETE FEATURE TOUR", description: "Inspect all eighteen lifecycle stages and three human approval checkpoints. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Automated development and human gates", output: "MOCK MODE · Inspect all eighteen lifecycle stages and three human approval checkpoints. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "development-cycle", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Automated development and human gates. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "estimation", nav: "Estimation", title: "Dev and QA estimation", eyebrow: "COMPLETE FEATURE TOUR", description: "Compare story points, developer hours, QA hours and assumptions. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Dev and QA estimation", output: "MOCK MODE · Compare story points, developer hours, QA hours and assumptions. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "estimation", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Dev and QA estimation. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "agent-memory", nav: "Agent memory", title: "Knowledgebase-backed chat context", eyebrow: "COMPLETE FEATURE TOUR", description: "Retrieve synthetic excerpts and show evidence-bound response context. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Knowledgebase-backed chat context", output: "MOCK MODE · Retrieve synthetic excerpts and show evidence-bound response context. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "agent-memory", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Knowledgebase-backed chat context. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "profile", nav: "Profile", title: "Identity and preferences", eyebrow: "COMPLETE FEATURE TOUR", description: "Preview profile, workspace preferences and account permissions. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Identity and preferences", output: "MOCK MODE · Preview profile, workspace preferences and account permissions. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "profile", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Identity and preferences. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "model-setup", nav: "Setup & AI", title: "Provider setup", eyebrow: "COMPLETE FEATURE TOUR", description: "Show local mode, BYOK provider and capability limitations. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Provider setup", output: "MOCK MODE · Show local mode, BYOK provider and capability limitations. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "model-setup", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Provider setup. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "document-library", nav: "Document library", title: "Document lifecycle", eyebrow: "COMPLETE FEATURE TOUR", description: "Review text extraction, semantic indexing and deletion scenarios. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Document lifecycle", output: "MOCK MODE · Review text extraction, semantic indexing and deletion scenarios. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "document-library", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Document lifecycle. No configuration, account, repository or environment was changed." }
+  ] },
+  { id: "release-notes", nav: "Release notes", title: "Release note generation", eyebrow: "COMPLETE FEATURE TOUR", description: "Preview human-reviewed changelog and rollback instructions. Demonstration only; no external services or live execution.", actions: [
+    { id: "overview", label: "Preview Release note generation", output: "MOCK MODE · Preview human-reviewed changelog and rollback instructions. This is illustrative sample data, not a live product operation or measured outcome." },
+    { id: "details", label: "Review example controls and evidence", requires: { workflowId: "release-notes", actionId: "overview" }, output: "MOCK MODE · Sample state, roles, evidence and constraints are shown for Release note generation. No configuration, account, repository or environment was changed." }
+  ] },
 ];
 
 export function getDemoWorkflow(id: string) {
