@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Activity, ArrowUpRight, Bot, BookOpen, Check, ChevronDown, CircleHelp, FileText, GitBranch, LayoutDashboard, Menu, MessageSquare, Plus, Search, Send, Settings2, ShieldCheck, Sparkles, SquareTerminal, X , Trash2, UserRound } from "lucide-react";
 import { Target, ToggleRight, ShieldAlert } from "lucide-react";
 import { DemoWorkbench } from "@/components/demo-workbench";
+import { DevelopmentCycleDashboard } from "@/components/development-cycle-dashboard";
 import { useDemoMode } from "@/lib/demo-mode";
 import { AnalyticsDashboard } from "@/components/analytics-dashboard";
 import { CompanySettings } from "@/components/company-settings";
@@ -44,7 +45,7 @@ type KnowledgeResult = { id: string; title: string; kind: string; source: string
 type ActivityEvent = { id: string; session_id: string | null; action: string; detail: string; created_at: string };
 const sections = [
   { title: "WORKSPACE", items: [{ label: "Command center", icon: LayoutDashboard }, { label: "Sessions", icon: MessageSquare, count: "04" }, { label: "Work items", icon: SquareTerminal }, { label: "Agents", icon: Bot }, { label: "Analysis", icon: Activity }, { label: "Round table", icon: Bot }, { label: "Plans", icon: Check }, { label: "OKRs", icon: Target }] },
-  { title: "ENGINEERING", items: [{ label: "Knowledge", icon: BookOpen }, { label: "Knowledge intelligence", icon: BookOpen }, { label: "Repositories", icon: GitBranch }, { label: "Development", icon: Activity }, { label: "Reviews", icon: ShieldCheck }, { label: "Testing", icon: Check }, { label: "Failure analysis", icon: Activity }] },
+  { title: "ENGINEERING", items: [{ label: "Knowledge", icon: BookOpen }, { label: "Knowledge intelligence", icon: BookOpen }, { label: "Repositories", icon: GitBranch }, { label: "Development", icon: Activity }, { label: "Development cycle", icon: GitBranch }, { label: "Reviews", icon: ShieldCheck }, { label: "Testing", icon: Check }, { label: "Failure analysis", icon: Activity }] },
   { title: "INTEGRATIONS", items: [{ label: "Integrations", icon: GitBranch }, { label: "Confluence", icon: BookOpen }, { label: "Azure DevOps", icon: GitBranch }] },
   { title: "RELEASE", items: [{ label: "Pull requests", icon: GitBranch }, { label: "Releases", icon: SquareTerminal }, { label: "Environments", icon: Check }, { label: "Observability", icon: Activity }, { label: "Security", icon: ShieldCheck }] },
   { title: "ACCOUNT", items: [{ label: "Profile", icon: UserRound }] },
@@ -713,6 +714,7 @@ nav === "Releases" ? <section className="panel"><ReleasesDashboard /></section> 
 nav === "Environments" ? <section className="panel"><EnvironmentsDashboard /></section> :
 nav === "Observability" ? <section className="panel"><ObservabilityDashboard /></section> :
 nav === "Security" ? <section className="panel"><SecurityDashboard /></section> :
+nav === "Development cycle" ? <DevelopmentCycleDashboard /> :
 nav === "Development" ? <section className="panel"><DevelopmentDashboard /></section> : nav === "Reviews" ? <section className="panel"><ReviewsDashboard /></section> : nav === "Testing" ? <section className="panel"><TestingDashboard /></section> : nav === "Pull requests" ? <section className="panel"><PullRequestsDashboard /></section> : nav === "Repositories" ? <section className="panel"><RepositoriesDashboard /></section> : nav === "Analysis" ? <section className="panel"><AnalyticsDashboard /></section> : nav === "Profile" ? <section className="panel"><ProfilePanel /></section> : nav === "Plans" ? <section className="panel"><PlansDashboard /></section> : nav === "OKRs" ? <section className="panel"><OkrDashboard /></section> : nav === "Feature flags" ? <section className="panel"><FeatureFlagsDashboard /></section> : nav === "Incidents" ? <section className="panel"><IncidentsDashboard /></section> : nav === "Integrations" ? <section className="panel" style={{padding: "24px"}}><AppIntegrations /></section> : nav === "Azure DevOps" ? <section className="panel"><AzureDevOpsDashboard /></section> : nav === "Confluence" ? <section className="panel"><ConfluenceDashboard /></section> : nav !== "Command center" ? <section className="panel not-configured-hero">
   <div className="not-configured-icon"><Activity size={24}/></div>
   <h2>{nav}</h2>
