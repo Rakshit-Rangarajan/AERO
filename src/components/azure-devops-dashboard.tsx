@@ -1,10 +1,9 @@
 "use client";
 
-import { useDemoMode } from "@/lib/demo-mode";
 import { Cloud, GitBranch, TerminalSquare, GitCommit, CheckCircle2 } from "lucide-react";
 
 export function AzureDevOpsDashboard() {
-  const { isDemo } = useDemoMode();
+  const isDemo = false;
 
   return (
     <div className="knowledge-page">
