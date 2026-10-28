@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addPhase, createMilestone, createPlan, deleteMilestone, deletePlan, demoModeEnabled, listMilestones, listPlans, seedDemoWorkspace, updateMilestone, updatePhase, updatePlan } from "@/lib/plans";
+import { addPhase, createMilestone, createPlan, deleteMilestone, deletePlan, listMilestones, listPlans, updateMilestone, updatePhase, updatePlan } from "@/lib/plans";
 
 export const runtime = "nodejs";
 
 export async function GET() {
-  if (demoModeEnabled()) seedDemoWorkspace();
-  return NextResponse.json({ plans: listPlans(), milestones: listMilestones(), demoMode: demoModeEnabled() });
+  return NextResponse.json({ plans: listPlans(), milestones: listMilestones() });
 }
 
 export async function POST(request: NextRequest) {
