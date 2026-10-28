@@ -2,22 +2,13 @@
 
 import { useState } from "react";
 import { ToggleRight, ToggleLeft, Users, Globe, Lock, Plus, Pencil } from "lucide-react";
-import { useDemoMode } from "@/lib/demo-mode";
 import { useRecordComposer } from "@/components/records/record-composer";
 import { useRecords } from "@/components/records/use-records";
 
 export function FeatureFlagsDashboard() {
-  const { isDemo } = useDemoMode();
+  const isDemo = false;
   const state = useRecords("feature-flag");
   const { composer, openNew, openEdit } = useRecordComposer("feature-flag", state);
-
-  const mockFlags = [
-    { name: "enable-agentic-orchestration", desc: "Turns on the new multi-agent orchestrator UI", env: "Production", status: "ramping", rollout: "25%", target: "Beta Users", icon: Users, color: 'var(--blue)' },
-    { name: "new-sso-provider-login", desc: "Routes enterprise users through Okta/SAML v2", env: "Production", status: "live", rollout: "100%", target: "Global", icon: Globe, color: 'var(--mint)' },
-    { name: "dark-mode-v2-contrast", desc: "Adjusts contrast ratios for accessibility compliance", env: "Production", status: "off", rollout: "0%", target: "Internal Only", icon: Lock, color: 'var(--muted)' },
-    { name: "payment-gateway-stripe", desc: "New checkout flow bypassing legacy provider", env: "Staging", status: "live", rollout: "100%", target: "QA Team", icon: Lock, color: 'var(--mint)' },
-    { name: "experimental-rag-pipeline", desc: "Uses vector DB for context instead of keyword search", env: "Production", status: "ramping", rollout: "5%", target: "Canary", icon: Users, color: 'var(--blue)' }
-  ];
 
   const dbFlags = state.records.map(r => ({
     id: r.id,
@@ -32,7 +23,7 @@ export function FeatureFlagsDashboard() {
     color: r.status === 'live' ? 'var(--mint)' : r.status === 'ramping' ? 'var(--blue)' : 'var(--muted)'
   }));
 
-  const activeFlags = isDemo ? mockFlags : dbFlags;
+  const activeFlags = dbFlags;
 
   return (
     <div className="knowledge-page">

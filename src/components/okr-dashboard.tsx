@@ -1,44 +1,13 @@
 "use client";
 
 import { Target, Flag, TrendingUp, Plus, Pencil } from "lucide-react";
-import { useDemoMode } from "@/lib/demo-mode";
 import { useRecordComposer } from "@/components/records/record-composer";
 import { useRecords } from "@/components/records/use-records";
 
 export function OkrDashboard() {
-  const { isDemo } = useDemoMode();
+  const isDemo = false;
   const state = useRecords("okr");
   const { composer, openNew, openEdit } = useRecordComposer("okr", state);
-
-  const mockOkrs = [
-    {
-      objective: "1. Accelerate Enterprise Onboarding",
-      progress: 75,
-      krs: [
-        { name: "Reduce average setup time from 4 hours to 15 minutes", progress: 80, current: "35 mins" },
-        { name: "Migrate 100% of legacy enterprise accounts to new SSO", progress: 95, current: "95%" },
-        { name: "Achieve zero manual intervention for standard deployments", progress: 50, current: "50%" }
-      ]
-    },
-    {
-      objective: "2. Establish Industry-Leading Platform Reliability",
-      progress: 60,
-      krs: [
-        { name: "Maintain 99.99% uptime across all Tier 1 services", progress: 100, current: "99.995%" },
-        { name: "Reduce P99 latency of core APIs to under 150ms", progress: 40, current: "220ms" },
-        { name: "Decrease Mean Time To Resolution (MTTR) by 30%", progress: 40, current: "45 mins" }
-      ]
-    },
-    {
-      objective: "3. Expand Product AI Capabilities",
-      progress: 25,
-      krs: [
-        { name: "Launch Agentic workflows in General Availability", progress: 30, current: "Beta" },
-        { name: "Generate 20% of new revenue from AI up-sells", progress: 10, current: "2%" },
-        { name: "Reduce LLM API latency costs by 50%", progress: 35, current: "-17%" }
-      ]
-    }
-  ];
 
   const dbOkrs = state.records.map(r => ({
     id: r.id,
@@ -52,7 +21,7 @@ export function OkrDashboard() {
     ].filter(Boolean) as { name: string, progress: number, current: string }[]
   }));
 
-  const activeOkrs = isDemo ? mockOkrs : dbOkrs;
+  const activeOkrs = dbOkrs;
 
   return (
     <div className="knowledge-page">

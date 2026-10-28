@@ -1,23 +1,13 @@
 "use client";
 
 import { AlertTriangle, ShieldAlert, PhoneCall, Clock, CheckCircle2, Plus, Pencil } from "lucide-react";
-import { useDemoMode } from "@/lib/demo-mode";
 import { useRecordComposer } from "@/components/records/record-composer";
 import { useRecords } from "@/components/records/use-records";
 
 export function IncidentsDashboard() {
-  const { isDemo } = useDemoMode();
+  const isDemo = false;
   const state = useRecords("incident");
   const { composer, openNew, openEdit } = useRecordComposer("incident", state);
-
-  const mockActive = [
-    { sev: "SEV-2", title: "High Database Latency in EU-West", time: "Started 14 minutes ago", detail: "Impacting ~5% of read queries", update: "Scaling up read replicas in eu-west-1. Investigating a potential bad query plan introduced in the last deployment." }
-  ];
-  const mockPm = [
-    { sev: "SEV-1", title: "Global Login Outage due to Expired TLS Certificate", date: "Oct 1, 2026", status: "Action items pending", color: "var(--red)" },
-    { sev: "SEV-3", title: "Search indexing delay in staging environment", date: "Sep 28, 2026", status: "Resolved", color: "var(--blue)" },
-    { sev: "SEV-2", title: "Memory leak in node-worker cluster", date: "Sep 20, 2026", status: "Resolved", color: "var(--orange)" }
-  ];
 
   const dbActive = state.records.filter(r => r.status === 'investigating' || r.status === 'mitigated').map(r => ({
     id: r.id, record: r,
@@ -37,8 +27,8 @@ export function IncidentsDashboard() {
     color: r.metrics.severity === 'high' ? "var(--red)" : r.metrics.severity === 'medium' ? "var(--orange)" : "var(--blue)"
   }));
 
-  const active = isDemo ? mockActive : dbActive;
-  const pms = isDemo ? mockPm : dbPm;
+  const active = dbActive;
+  const pms = dbPm;
 
   return (
     <div className="knowledge-page">

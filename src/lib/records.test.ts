@@ -22,7 +22,6 @@ describe("workspace records", () => {
   });
 
   beforeEach(async () => {
-    process.env.AERO_DEMO_MODE = "";
     const { getDb } = await import("@/lib/db");
     getDb().exec("DELETE FROM workspace_records; DELETE FROM audit_events;");
   });
@@ -108,33 +107,6 @@ describe("workspace records", () => {
     const { updateRecord, deleteRecord } = await loadRecords();
     expect(updateRecord("missing-id", { title: "Nope" })).toBeNull();
     expect(deleteRecord("missing-id")).toBe(false);
-  });
-
-  it("seeds every kind once when demo mode is enabled", async () => {
-    process.env.AERO_DEMO_MODE = "1";
-    const { seedDemoRecords, listRecords } = await loadRecords();
-    seedDemoRecords();
-
-    for (const kind of RECORD_KINDS) {
-      expect(listRecords(kind).length, `${kind} demo seed`).toBeGreaterThan(0);
-    }
-
-    const pullRequests = listRecords("pull-request");
-    const first = pullRequests.find(item => item.code === "PR-421");
-    expect(first?.title).toBe("feat(knowledge): semantic chunking pipeline");
-    expect(first?.metrics.additions).toBe(450);
-    expect(first?.metrics.approved).toBe(true);
-
-    // A second call must not duplicate the reference data.
-    const releaseCount = listRecords("release").length;
-    seedDemoRecords();
-    expect(listRecords("release")).toHaveLength(releaseCount);
-  });
-
-  it("never seeds demo data when demo mode is off", async () => {
-    const { seedDemoRecords, listRecords } = await loadRecords();
-    seedDemoRecords();
-    for (const kind of RECORD_KINDS) expect(listRecords(kind)).toEqual([]);
   });
 
   it("allocates sequential display codes per kind", async () => {
