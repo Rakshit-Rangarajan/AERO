@@ -66,11 +66,6 @@ export function migrate(db: DatabaseSync) {
       UNIQUE(company_id,name)
     );
     CREATE INDEX IF NOT EXISTS repositories_by_company ON company_repositories(company_id, name);
-    CREATE TABLE IF NOT EXISTS demo_runs (
-      id TEXT PRIMARY KEY, workflow_id TEXT NOT NULL, action_id TEXT NOT NULL,
-      result TEXT NOT NULL, created_at TEXT NOT NULL
-    );
-    CREATE INDEX IF NOT EXISTS demo_runs_by_workflow ON demo_runs(workflow_id, created_at);
     CREATE TABLE IF NOT EXISTS plans (
       id TEXT PRIMARY KEY, code TEXT NOT NULL UNIQUE, title TEXT NOT NULL,
       description TEXT NOT NULL DEFAULT '', owner TEXT NOT NULL DEFAULT 'Unassigned',
