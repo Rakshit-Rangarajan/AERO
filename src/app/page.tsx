@@ -157,7 +157,12 @@ export default function Home() {
       if (result.session.agentId) setAgentId(result.session.agentId);
     }
   }
-  useEffect(() => { fetch("/api/state").then(response => response.ok ? response.json() : null).then(result => { if (result) { setState(result); if (result.session.agentId) setAgentId(result.session.agentId); } }); }, []);
+  useEffect(() => {
+    // Hosted demo must not depend on the local SQLite workspace.
+    // This is an explicitly synthetic, read-only presentation shell.
+    const sample = { id: "demo-general", title: "AERO presenter workspace", kind: "general", agentId: null, updatedAt: new Date().toISOString() };
+    setState({ session: sample, sessions: [sample], messages: [], provider: "local" });
+  }, []);
   useEffect(() => { fetch("/api/agents").then(response => response.ok ? response.json() : null).then(result => { if (result?.agents) setAgents(result.agents); }); }, []);
   useEffect(() => { fetch("/api/knowledge/setup").then(response => response.ok ? response.json() : null).then(result => { if (result?.root) setKnowledgeRoot(result.root); if (result?.repoRoot) setRepoRoot(result.repoRoot); }); }, []);
   useEffect(() => { bottom.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [state?.messages.length]);
