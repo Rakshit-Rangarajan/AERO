@@ -33,3 +33,12 @@ describe("demo workbench catalogue", () => {
     expect(actions("environments").every(action => action.requires?.workflowId === "release" && action.requires.actionId === "manual-deploy")).toBe(true);
   });
 });
+
+
+describe("complete demo branch coverage", () => {
+  it("exposes every core presentation area", () => {
+    const required = ["Integrations","Work items","Confluence","Azure DevOps","Repositories","Analysis","Round table","Plans","Development","Development cycle","Reviews","Testing","Pull requests","Releases","Environments","Failure analysis","Knowledge intelligence","Documents","Ingestion","Model routing","Workflow controls","Observability","Security","Sessions","Agents","Group chats","Companies","OKRs","Feature flags","Incidents","Analytics","Estimation","Agent memory","Profile","Setup & AI","Document library","Release notes","Command center"];
+    const available = new Set(demoWorkflows.map(item => item.nav));
+    for (const name of required) expect(available.has(name), name).toBe(true);
+  });
+});
