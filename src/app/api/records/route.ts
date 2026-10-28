@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { recordAudit } from "@/lib/db";
 import { isRecordKind, type MetricValue } from "@/lib/record-schemas";
-import { createRecord, deleteRecord, listRecords, seedDemoRecords, updateRecord } from "@/lib/records";
+import { createRecord, deleteRecord, listRecords, updateRecord } from "@/lib/records";
 
 export async function GET(request: NextRequest) {
-  seedDemoRecords();
   const kind = request.nextUrl.searchParams.get("kind");
   if (!isRecordKind(kind)) return NextResponse.json({ error: "Unknown record kind." }, { status: 400 });
   return NextResponse.json({ records: listRecords(kind) });
 }
 
 export async function POST(request: NextRequest) {
-  seedDemoRecords();
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   const kind = body?.kind;
   if (!isRecordKind(kind)) return NextResponse.json({ error: "Unknown record kind." }, { status: 400 });
@@ -39,7 +37,6 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  seedDemoRecords();
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   if (typeof body?.id !== "string") return NextResponse.json({ error: "A record id is required." }, { status: 400 });
   const patch: Parameters<typeof updateRecord>[1] = {};
@@ -54,7 +51,6 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  seedDemoRecords();
   const id = request.nextUrl.searchParams.get("id");
   if (!id) return NextResponse.json({ error: "A record id is required." }, { status: 400 });
   if (!deleteRecord(id)) return NextResponse.json({ error: "That record no longer exists." }, { status: 404 });
