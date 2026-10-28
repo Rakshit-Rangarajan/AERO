@@ -14,7 +14,8 @@ export function DemoWorkbench({ nav }: { nav: string }) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [targetBranch, setTargetBranch] = useState("develop");
-  const workflowId = nav === "Work items" ? "jira-analysis" : nav === "Knowledge" ? "knowledge-intelligence" : undefined;
+  const [selectedWorkflow, setSelectedWorkflow] = useState<string | null>(null);
+  const workflowId = selectedWorkflow ?? (nav === "Work items" ? "jira-analysis" : nav === "Knowledge" ? "knowledge-intelligence" : undefined);
   const workflow = useMemo(() => demoWorkflows.find(item => item.id === workflowId || (!workflowId && item.nav === nav)), [nav, workflowId]);
   const runs = data?.runs ?? [];
   const journey = presenterProgress(runs);
@@ -68,26 +69,27 @@ export function DemoWorkbench({ nav }: { nav: string }) {
     {journey.next ? <div style={{marginBottom:12}}><strong>Next: {journey.next.action.label}</strong><p style={{margin:"4px 0"}}>{journey.next.takeaway}</p></div>
       : <p><Check size={14} /> Presenter journey completed. All results remain simulated.</p>}
     <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-      {journey.next && <button className="demo-run-button" onClick={() => window.dispatchEvent(new CustomEvent("aero:navigate", {detail:journey.next?.workflow.nav}))}>
+      {journey.next && <button className="demo-run-button" onClick={() => setSelectedWorkflow(journey.next?.workflowId ?? null)}>
         <ArrowRight size={13}/> Go to next step: {journey.next.workflow.nav}</button>}
       <button className="demo-run-button" onClick={exportEvidence} disabled={!runs.length}>Export simulated evidence (JSON)</button>
     </div>
     <details style={{marginTop:14}}><summary>View all presenter chapters</summary>
       <ol style={{paddingLeft:22}}>{guidedSteps.map((step,index) => <li key={index} style={{padding:"5px 0"}}>
         {runs.some(run => run.workflowId===step.workflowId && run.actionId===step.actionId) ? "✓ " : "○ "}
-        <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("aero:navigate",{detail:step.workflow.nav}))}
+        <button type="button" onClick={() => setSelectedWorkflow(step.workflowId)}
           style={{background:"none",border:0,color:"inherit",textDecoration:"underline",cursor:"pointer"}}>{step.action.label}</button> — {step.takeaway}
       </li>)}</ol>
     </details>
   </div>;
 
-  if (!workflow) return <section className="demo-panel panel"><div className="demo-heading"><span className="demo-icon"><Sparkles size={16}/></span><div><span className="demo-eyebrow">LOCAL FEATURE CATALOG</span><h2>Demo workbench</h2><p>Select a feature from the workspace navigation to walk through its local simulation.</p></div><span className="demo-mode-pill"><Radio size={12}/> DEMO MODE</span></div>{presenter}<div className="demo-catalog-grid">{demoWorkflows.map(item => <button key={item.id} onClick={() => window.dispatchEvent(new CustomEvent("aero:navigate", { detail: item.nav }))}><span>{item.eyebrow}</span><strong>{item.title}</strong><small>{item.description}</small><i>{item.actions.length} guided steps <ArrowRight size={12}/></i></button>)}</div></section>;
+  if (!workflow) return <section className="demo-panel panel"><div className="demo-heading"><span className="demo-icon"><Sparkles size={16}/></span><div><span className="demo-eyebrow">LOCAL FEATURE CATALOG</span><h2>Demo workbench</h2><p>Select a feature from the workspace navigation to walk through its local simulation.</p></div><span className="demo-mode-pill"><Radio size={12}/> DEMO MODE</span></div>{presenter}<div className="demo-catalog-grid">{demoWorkflows.map(item => <button key={item.id} onClick={() => setSelectedWorkflow(item.id)}><span>{item.eyebrow}</span><strong>{item.title}</strong><small>{item.description}</small><i>{item.actions.length} guided steps <ArrowRight size={12}/></i></button>)}</div></section>;
 
   const completed = new Set(runs.filter(run => run.workflowId === workflow.id).map(run => run.actionId));
   const latestRun = runs.find(run => run.workflowId === workflow.id);
 
   return <section className="demo-panel panel">
     <header className="demo-heading"><span className="demo-icon"><Sparkles size={16}/></span><div><span className="demo-eyebrow">{workflow.eyebrow}</span><h2>{workflow.title}</h2><p>{workflow.description}</p></div><span className="demo-mode-pill"><Radio size={12}/> DEMO MODE</span></header>
+    <button className="demo-run-button" type="button" onClick={() => setSelectedWorkflow(null)} style={{marginBottom:12}}>← All demo features</button>
     {presenter}
     <div className="demo-warning"><ShieldCheck size={15}/><span><strong>Simulation only.</strong> No external service, repository, browser, model trace, or environment is accessed. Results below are deterministic fixtures saved locally.</span></div>
     {error && <div className="demo-error" role="alert"><CircleAlert size={14}/>{error}</div>}
