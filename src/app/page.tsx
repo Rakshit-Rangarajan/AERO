@@ -202,33 +202,6 @@ export default function Home() {
       const userMessage: Message = {id:crypto.randomUUID(),role:"user",content,createdAt:now};
       const assistantMessage: Message = {id:crypto.randomUUID(),role:"assistant",content:answer,createdAt:now,agent:active?.name??"AERO"};
       setState(previous => previous ? {...previous,messages:[...previous.messages,userMessage,assistantMessage]} : previous);
-      return;
-
-      const activeAgentId = state.session.kind === "agent" && state.session.agentId ? state.session.agentId : agentId;
-      const wantsAgentChat = nav === "Agents" && Boolean(selectedAgent);
-      let sessionId = state.session.id;
-      let replyAgentId: string | null = activeAgentId;
-      if (wantsAgentChat && selectedAgent) {
-        const existing = state.sessions.find(session => session.kind === "agent" && session.agentId === selectedAgent.id);
-        if (existing) {
-          sessionId = existing.id;
-        } else {
-          const created = await fetch("/api/sessions", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind: "agent", agentId: selectedAgent.id }) });
-          const createdResult = await created.json().catch(() => null) as { session?: Session; error?: string } | null;
-          if (!created.ok || !createdResult?.session) {
-            setNotice(createdResult?.error ?? "The agent conversation could not be started.");
-            window.setTimeout(() => setNotice(""), 6000);
-            return;
-          }
-          setState(createdResult as unknown as State);
-          sessionId = createdResult.session.id;
-        }
-        replyAgentId = selectedAgent.id;
-      }
-      const response = await fetch("/api/messages", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sessionId, content, agentId: replyAgentId }) });
-      const result = await response.json();
-      if (!response.ok) { setNotice(result.error ?? "The message could not be saved."); if (result.saved) await refresh(sessionId); }
-      else setState(result);
     } finally { setBusy(false); }
   }
 
