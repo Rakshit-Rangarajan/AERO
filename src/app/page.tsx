@@ -51,6 +51,15 @@ const sections = [
   { title: "ACCOUNT", items: [{ label: "Profile", icon: UserRound }] },
 ];
 
+const demoGroups = [
+  { title: "Overview", icon: LayoutDashboard, items: ["Command center","Demo center","Sessions","Work items","Activity"] },
+  { title: "AI studio", icon: Bot, items: ["Agents","Analysis","Round table","Knowledge","Knowledge intelligence"] },
+  { title: "Engineering", icon: GitBranch, items: ["Repositories","Development","Development cycle","Reviews","Testing","Failure analysis","Plans"] },
+  { title: "Delivery", icon: ShieldCheck, items: ["Pull requests","Releases","Environments","Observability","Security"] },
+  { title: "Connections", icon: BookOpen, items: ["Integrations","Confluence","Azure DevOps"] },
+  { title: "Management", icon: Target, items: ["OKRs","Feature flags","Incidents","Profile","Settings"] },
+];
+
 export default function Home() {
   const [state, setState] = useState<State | null>(null);
   const [workspaceMenuOpen, setWorkspaceMenuOpen] = useState(false);
@@ -680,15 +689,17 @@ export default function Home() {
           </div>
         )}
       </div>
-      <div className="nav-scroll">{sections.map(section => <div className="nav-section" key={section.title}><div className="nav-title">{section.title}</div>{section.items.map(item => <button key={item.label} onClick={() => setNav(item.label)} className={`nav-item ${nav === item.label ? "selected" : ""}`}><item.icon size={16}/><span>{item.label}</span>{"count" in item && <small>{state.sessions.length.toString().padStart(2,"0")}</small>}</button>)}</div>)}
-        <div className="nav-section"><div className="nav-title">OPERATIONS</div>{["Pull requests", "Environments", "Activity", "Feature flags", "Incidents"].map((name, index) => { const Icon = [GitBranch, SquareTerminal, Activity, ToggleRight, ShieldAlert][index]; return <button key={name} onClick={() => name === "Activity" ? void openActivity() : setNav(name)} className={`nav-item ${nav === name ? "selected" : ""}`}><Icon size={16}/><span>{name}</span></button>; })}</div>
-        <div className="nav-section session-list"><div className="nav-title">RECENT SESSIONS <button aria-label="New session" onClick={() => void createSession()}><Plus size={14}/></button></div>{state.sessions.slice(0, 6).map(session => <button key={session.id} className={`nav-item session-link ${state.session.id === session.id ? "selected" : ""}`} onClick={() => void openSession(session)}><span className="session-dot"/><span>{session.title}</span></button>)}</div>
-      </div>
-      <div className="sidebar-bottom"><button className="nav-item" onClick={() => setNav("Settings")}><Settings2 size={16}/><span>Knowledge workspace</span></button><button className="user-profile"><span className="user-avatar">LD</span><span className="workspace-copy"><strong>Local developer</strong><small>No account configured</small></span><ChevronDown size={14}/></button></div>
+      <nav className="demo-icon-rail" aria-label="Demo categories">
+        {demoGroups.map(group => { const Icon=group.icon; const active=group.items.includes(nav); return <button key={group.title} type="button" aria-label={group.title} title={group.title} aria-current={active?"page":undefined} className={`demo-rail-button ${active?"active":""}`} onClick={() => setNav(group.items[0])}><Icon size={21}/><span>{group.title}</span></button>; })}
+      </nav>
+      <div className="demo-rail-footer"><button type="button" title="Settings" aria-label="Settings" onClick={()=>setNav("Settings")}><Settings2 size={19}/></button></div>
     </aside>
 
     <section className="main-area">
       <header className="topbar"><div className="breadcrumbs"><span>Workspace</span><span className="crumb-slash">/</span><strong>{nav}</strong><span className="crumb-slash">/</span><span>{state.session.title}</span></div><div className="top-actions"><span className="system-status"><i/>{state.provider === "local" ? "Local runtime" : "Provider configured"}</span><button className="search-trigger" onClick={() => { if (nav === "Knowledge") document.getElementById("knowledge-search")?.focus(); else if (document.getElementById("composer")) document.getElementById("composer")?.focus(); else alert("Global search is coming soon! Try searching within the specific dashboard you are on."); }}><Search size={14}/>Search<span>⌘ K</span></button><button className="icon-button help" aria-label="Help"><CircleHelp size={17}/></button><div className="top-avatar">LD</div></div></header>
+      <nav className="demo-category-tabs" aria-label="Section tabs">
+        {demoGroups.filter(group=>group.items.includes(nav)).flatMap(group=>group.items.map(item=><button type="button" key={item} className={`demo-tab ${nav===item?"active":""}`} aria-current={nav===item?"page":undefined} onClick={()=>item==="Activity"?void openActivity():setNav(item)}>{item}</button>))}
+      </nav>
       <div className="content-scroll"><div className="page-content">
         <div className="page-heading"><div><div className="eyebrow"><span className="eyebrow-line"/>{new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "2-digit", year: "numeric" }).toUpperCase()} <span className="eyebrow-divider">·</span> ENGINEERING WORKSPACE</div><h1>{nav === "Agents" ? "Chat with agents" : "Command center"}<span className="heading-period">.</span></h1><p className="page-subtitle">{nav === "Agents" ? "Focused conversations with your engineering specialists." : "Your engineering work, connected and in motion."}</p></div><button className="primary-button" onClick={() => nav === "Agents" && selectedAgent ? void startAgentChat(selectedAgent) : void createSession("ticket", "New work item session")}><Plus size={16}/> {nav === "Agents" ? "New agent chat" : "New session"} <span className="button-shortcut">⌘ J</span></button></div>
 
