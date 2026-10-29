@@ -193,6 +193,17 @@ export default function Home() {
     if (!content || busy || !state) return;
     setDraft(""); setBusy(true);
     try {
+      // Demo branch: local-only simulated conversation, no SQLite or AI provider.
+      const now = new Date().toISOString();
+      const active = nav === "Agents" && selectedAgent ? selectedAgent : null;
+      const answer = active
+        ? `DEMO SIMULATION · ${active.name} (${active.role}): For "${content}", I would first collect the ticket requirements, retrieve linked knowledge, assess dependencies and risk, then propose an implementation and QA plan for human approval. No live model or repository was consulted.`
+        : `DEMO SIMULATION · AERO: I can walk through analysis, knowledge retrieval, the round table, implementation planning, testing and human approval for "${content}". Open Demo center to execute a guided simulated workflow. No live AI provider is connected.`;
+      const userMessage: Message = {id:crypto.randomUUID(),role:"user",content,createdAt:now};
+      const assistantMessage: Message = {id:crypto.randomUUID(),role:"assistant",content:answer,createdAt:now,agent:active?.name??"AERO"};
+      setState(previous => previous ? {...previous,messages:[...previous.messages,userMessage,assistantMessage]} : previous);
+      return;
+
       const activeAgentId = state.session.kind === "agent" && state.session.agentId ? state.session.agentId : agentId;
       const wantsAgentChat = nav === "Agents" && Boolean(selectedAgent);
       let sessionId = state.session.id;
