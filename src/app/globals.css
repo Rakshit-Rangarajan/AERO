@@ -1258,3 +1258,55 @@ THEME OVERRIDES FOR FULL APP COVERAGE
 .demo-category-tabs .demo-tab:hover,.demo-category-tabs .demo-tab:focus-visible { color:var(--text); background:rgba(255,255,255,.06); }
 .demo-category-tabs .demo-tab.active { background:rgba(87,200,157,.12); color:var(--mint); border-color:rgba(87,200,157,.3); }
 @media(max-width:700px) { .app-shell > .sidebar { width:66px !important; min-width:66px !important; padding:6px 4px !important; display:flex !important; } .sidebar .demo-rail-button { min-height:57px; } .sidebar .demo-rail-button span { font-size:8px; } .demo-category-tabs { padding:9px 12px; } .demo-category-tabs .demo-tab { padding:8px 10px; } }
+
+/* Demo-only enterprise migration case study command room */
+.migration-showcase{display:grid;gap:18px;color:var(--text);width:100%}
+.migration-header,.migration-title,.migration-meeting-head,.migration-gate{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.migration-header h2{font-size:27px;letter-spacing:-.04em;margin:8px 0}
+.migration-header p,.migration-title p,.migration-card>p,.migration-meeting-head p{color:var(--muted);line-height:1.65;font-size:13px}
+.migration-eyebrow{font-size:10px;letter-spacing:.16em;color:var(--mint);font-weight:750}
+.migration-pill{border:1px solid rgba(56,189,248,.4);color:#7dd3fc;border-radius:99px;padding:8px 12px;white-space:nowrap;font-size:10px;font-weight:800}
+.migration-ticket-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.migration-ticket-picker button,.migration-card,.migration-title{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.migration-ticket-picker button{display:flex;align-items:flex-start;flex-direction:column;gap:9px;color:var(--text);cursor:pointer;text-align:left;min-height:118px}
+.migration-ticket-picker button.active{border-color:var(--mint);background:rgba(87,200,157,.08)}
+.migration-ticket-picker small,.migration-title span,.migration-phase small{font:700 11px 'DM Mono',monospace;color:var(--mint)}
+.migration-ticket-picker strong{font-size:14px}
+.migration-ticket-picker span{font-size:11px;color:var(--muted)}
+.migration-title h3{font-size:23px;margin:8px 0}
+.migration-title button,.migration-card button,.migration-gate button{display:inline-flex;align-items:center;gap:6px;background:var(--mint);border:none;border-radius:9px;padding:10px 13px;color:#08120e;font-weight:750;font-size:12px;cursor:pointer}
+.migration-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;border-bottom:1px solid var(--line);padding-bottom:9px}
+.migration-tabs button{display:flex;align-items:center;gap:7px;padding:11px 13px;border:1px solid transparent;background:transparent;border-radius:10px;white-space:nowrap;color:var(--muted);font-weight:650;font-size:12px;cursor:pointer}
+.migration-tabs button.active{color:var(--mint);border-color:rgba(87,200,157,.3);background:rgba(87,200,157,.1)}
+.migration-columns{display:grid;grid-template-columns:1.2fr 1fr;gap:15px;align-items:start}
+.migration-card h4{font-size:15px;margin:0 0 13px}
+.migration-card h4:not(:first-child){margin-top:24px}
+.migration-card ul,.migration-card ol{padding-left:20px;display:grid;gap:12px;font-size:12px;color:var(--muted);line-height:1.6}
+.migration-card li svg,.migration-phase p svg{display:inline;vertical-align:middle;color:var(--mint);margin-right:5px}
+.migration-note{padding:13px;background:rgba(255,255,255,.03);border-left:2px solid var(--mint);border-radius:7px;color:var(--muted);font-size:12px;line-height:1.6}
+.migration-card form{display:grid;gap:10px;margin-top:18px}
+.migration-card label{font-size:12px;font-weight:600}
+.migration-card textarea{width:100%;resize:vertical;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;font-size:12px}
+.migration-card form button{justify-self:start}
+.migration-chat{display:grid;gap:12px;margin:20px 0}
+.migration-message{display:flex;gap:12px;padding:15px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.migration-avatar{width:34px;height:34px;min-width:34px;border-radius:10px;background:linear-gradient(140deg,#225e57,#3a3d70);color:white;display:grid;place-items:center;font-weight:750}
+.migration-message strong{font-size:13px}
+.migration-message small,.migration-participants small{color:var(--muted);font-weight:450;margin-left:8px}
+.migration-message p{color:var(--muted);font-size:12px;line-height:1.7;margin:7px 0 0}
+.migration-participants{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.migration-participants>div{display:grid;justify-items:center;gap:7px;text-align:center;padding:16px 6px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px}
+.migration-participants strong{font-size:12px}.migration-participants small{font-size:10px;margin:0}
+.migration-gate{margin-top:20px;padding:17px;border:1px dashed rgba(87,200,157,.45);border-radius:12px}
+.migration-gate p{color:var(--muted);font-size:11px;margin:6px 0 0}
+.migration-timeline{display:grid;gap:15px;margin:20px 0}
+.migration-phase{display:flex;gap:16px;border-bottom:1px solid var(--line);padding-bottom:20px}
+.migration-step{display:grid;place-items:center;width:34px;min-width:34px;height:34px;background:rgba(87,200,157,.1);border:1px solid rgba(87,200,157,.3);border-radius:50%;color:var(--mint);font-weight:800}
+.migration-phase h4{margin:6px 0 0!important}.migration-phase ul{margin:12px 0}.migration-phase p{font-size:11px;color:var(--mint)}
+.migration-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+.migration-metrics>div{border:1px solid var(--line);border-radius:12px;padding:16px;background:rgba(255,255,255,.02)}
+.migration-metrics strong{font-size:13px}.migration-metrics p,.migration-metrics small{font-size:11px;color:var(--muted);line-height:1.7}
+.migration-bar-label{font-size:10px;color:var(--muted);margin:11px 0 6px}
+.migration-meter{height:9px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.08)}
+.migration-meter span{display:block;height:100%;border-radius:8px}
+@media(max-width:850px){.migration-ticket-picker,.migration-metrics{grid-template-columns:1fr}.migration-columns{grid-template-columns:1fr}.migration-participants{grid-template-columns:repeat(2,minmax(0,1fr))}.migration-title,.migration-header,.migration-gate{align-items:flex-start;flex-direction:column}}
