@@ -1239,3 +1239,22 @@ THEME OVERRIDES FOR FULL APP COVERAGE
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(140, 153, 148, 0.4);
 }
+
+
+/* Demo-only navigation: category icon rail + context tabs. */
+.app-shell > .sidebar { width:86px !important; min-width:86px !important; padding:12px 8px !important; border-radius:0 !important; align-items:center; gap:12px; }
+.sidebar .brand-row { width:100%; justify-content:center; padding:8px 0 !important; }
+.sidebar .brand-row .brand-name,.sidebar .brand-row .mobile-menu,.sidebar .brand-row .collapse,.sidebar .workspace-switch { display:none !important; }
+.sidebar .brand-mark { width:38px !important; height:38px !important; }
+.sidebar .demo-icon-rail { display:flex; flex-direction:column; align-items:stretch; gap:8px; width:100%; padding:10px 0; overflow-y:auto; min-height:0; }
+.sidebar .demo-rail-button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; width:100%; min-height:66px; background:transparent; border:1px solid transparent; border-radius:13px; color:var(--muted); cursor:pointer; padding:9px 3px; transition:background .15s,border-color .15s,color .15s; }
+.sidebar .demo-rail-button span { font-size:9px; font-weight:650; text-align:center; line-height:1.2; white-space:normal; }
+.sidebar .demo-rail-button:hover,.sidebar .demo-rail-button:focus-visible { background:rgba(255,255,255,.055); color:var(--text); }
+.sidebar .demo-rail-button.active { border-color:rgba(87,200,157,.42); background:rgba(87,200,157,.12); color:var(--mint); }
+.sidebar .demo-rail-footer { margin-top:auto; padding:10px 0; }
+.sidebar .demo-rail-footer button { border:0; background:transparent; color:var(--muted); padding:12px; cursor:pointer; border-radius:10px; }
+.demo-category-tabs { display:flex; align-items:center; gap:6px; max-width:100%; padding:12px 20px; border-bottom:1px solid var(--line); background:var(--sidebar); overflow-x:auto; scrollbar-width:thin; }
+.demo-category-tabs .demo-tab { flex:0 0 auto; border:1px solid transparent; background:transparent; color:var(--muted); border-radius:10px; padding:9px 13px; font:inherit; font-size:12px; font-weight:650; cursor:pointer; }
+.demo-category-tabs .demo-tab:hover,.demo-category-tabs .demo-tab:focus-visible { color:var(--text); background:rgba(255,255,255,.06); }
+.demo-category-tabs .demo-tab.active { background:rgba(87,200,157,.12); color:var(--mint); border-color:rgba(87,200,157,.3); }
+@media(max-width:700px) { .app-shell > .sidebar { width:66px !important; min-width:66px !important; padding:6px 4px !important; display:flex !important; } .sidebar .demo-rail-button { min-height:57px; } .sidebar .demo-rail-button span { font-size:8px; } .demo-category-tabs { padding:9px 12px; } .demo-category-tabs .demo-tab { padding:8px 10px; } }
